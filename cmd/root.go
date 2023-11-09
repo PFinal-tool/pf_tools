@@ -12,6 +12,7 @@ var rootCmd = &cobra.Command{
 	Short: "pft",
 	Long: `基于go开发的 小工具集合
    - pft pf_wt 查询天气
+   - pft pf_m 手机归属地查询
 `,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
