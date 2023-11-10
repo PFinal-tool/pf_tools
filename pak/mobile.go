@@ -28,11 +28,32 @@ type MobileInfo struct {
 }
 
 func (m *Mobile) GetInfo(numb string) {
-	pr, _ := gophone.Find(numb)
 	if err := ui.Init(); err != nil {
 		log.Fatalf("failed to initialize termui: %v", err)
 	}
 	defer ui.Close()
+	pr, err := gophone.Find(numb)
+	if err != nil {
+		//fmt.Println(err)
+		p := widgets.NewParagraph()
+		p.Title = "查询结果"
+		p.Text = "查询失败 按 Q 退出"
+		p.TextStyle.Fg = ui.ColorGreen
+		p.BorderStyle.Fg = ui.ColorRed
+		p.SetRect(0, 0, 30, 3)
+		ui.Render(p)
+
+		uiEvents := ui.PollEvents()
+		for {
+			e := <-uiEvents
+			switch e.ID {
+			case "q", "<C-c>":
+				return
+			}
+		}
+		return
+	}
+
 	l := widgets.NewList()
 	l.Title = "号码详细信息"
 	l.Rows = []string{
