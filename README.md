@@ -19,3 +19,14 @@
 ```
 
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202311091002314.png)
+
+#### md5 小工具
+
+```shell
+ pf_tools pf_md5 pfinaclub #加密 pfinalclub
+ pf_tools pf_md5 pfinaclub pf 1 #加密 pfinalclub 右边加盐 pf
+```
+
+![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202311141146354.png)
+
+![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202311141148825.png)
