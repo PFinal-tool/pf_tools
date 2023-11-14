@@ -30,3 +30,11 @@
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202311141146354.png)
 
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202311141148825.png)
+
+#### base64 小工具
+
+```shell
+pf_tools pf_b64 pfinalclub # 加密
+pf_tools pf_b64 cGZpbmFsY2x1Yg== -d # 解密
+```
+
