@@ -6,6 +6,7 @@ import (
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
 	"log"
+	"strings"
 )
 
 /**
@@ -18,6 +19,18 @@ import (
 
 type Cryption struct{}
 
+func splitStringByLength(s string, length int) []string {
+	var result []string
+	for i := 0; i < len(s); i += length {
+		if i+length > len(s) {
+			result = append(result, s[i:])
+		} else {
+			result = append(result, s[i:i+length])
+		}
+	}
+	return result
+}
+
 func (c *Cryption) EncodeToString(str string) {
 	b := []byte(str)
 	sEnc := base64.StdEncoding.EncodeToString(b)
@@ -26,15 +39,18 @@ func (c *Cryption) EncodeToString(str string) {
 		log.Fatalf("failed to initialize termui: %v", err)
 	}
 	defer ui.Close()
-	fmt.Println(sprintf)
+	sEncList := splitStringByLength(sprintf, 100)
+	// fmt.Println(strings.Join(sEncList, "\n"))
 	p := widgets.NewParagraph()
 	p.Title = "加密结果"
-	p.Text = "加密成功：" + sprintf
+	p.Text = strings.Join(sEncList, "\n")
+	// p.Text = sprintf
 	p.TextStyle.Fg = ui.ColorGreen
+	p.TextStyle.Modifier = ui.ModifierBold
 	p.BorderStyle.Fg = ui.ColorGreen
-	p.SetRect(0, 0, len(sprintf)+20, 3)
+	p.WrapText = true
+	p.SetRect(0, 0, 105, len(sEncList)+2)
 	ui.Render(p)
-
 	uiEvents := ui.PollEvents()
 	for {
 		e := <-uiEvents
