@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/pfinal/pf_tools/pak"
 
 	"github.com/spf13/cobra"
@@ -19,7 +18,7 @@ var pfB64Cmd = &cobra.Command{
 		}
 		cry := pak.Cryption{}
 		decode, _ := cmd.Flags().GetBool("decode")
-		fmt.Println(decode)
+		//fmt.Println(decode)
 		if decode {
 			cry.DecodeString(args[0])
 		} else {
