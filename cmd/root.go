@@ -13,6 +13,9 @@ var rootCmd = &cobra.Command{
 	Long: `基于go开发的 小工具集合
    - pft pf_wt 查询天气
    - pft pf_m 手机归属地查询
+   - pft pf_md5 md5 小工具
+   - pft pf_b64 base64 小工具
+   - pft pf_s 查询网络词汇
 `,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
