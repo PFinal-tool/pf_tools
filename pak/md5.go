@@ -3,6 +3,7 @@ package pak
 import (
 	"crypto/md5"
 	"fmt"
+	"github.com/atotto/clipboard"
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
 	"log"
@@ -58,7 +59,8 @@ func (m *Md5) Encipher(str string, options Options) {
 		case "q", "<C-c>":
 			return
 		case "c":
-
+			_ = clipboard.WriteAll(enStr)
+			return
 		}
 	}
 }

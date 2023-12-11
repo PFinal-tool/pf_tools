@@ -26,6 +26,9 @@
  pf_tools pf_md5 pfinaclub #加密 pfinalclub
  pf_tools pf_md5 pfinaclub pf 1 #加密 pfinalclub 右边加盐 pf
 ```
+> 按 q 退出 
+
+> 按 c 建复制到剪贴板上 
 
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202311141146354.png)
 
@@ -37,6 +40,9 @@
 pf_tools pf_b64 pfinalclub # 加密
 pf_tools pf_b64 cGZpbmFsY2x1Yg== -d # 解密
 ```
+> 按 q 退出
+
+> 按 c 建复制到剪贴板上
 
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202311141431206.png)
 

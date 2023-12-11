@@ -3,6 +3,7 @@ package pak
 import (
 	"encoding/base64"
 	"fmt"
+	"github.com/atotto/clipboard"
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
 	"log"
@@ -57,6 +58,9 @@ func (c *Cryption) EncodeToString(str string) {
 		switch e.ID {
 		case "q", "<C-c>":
 			return
+		case "c":
+			_ = clipboard.WriteAll(sprintf)
+			return
 		}
 	}
 	return
@@ -100,6 +104,9 @@ func (c *Cryption) DecodeString(sEnc string) {
 			e := <-uiEvents
 			switch e.ID {
 			case "q", "<C-c>":
+				return
+			case "c":
+				_ = clipboard.WriteAll(sprintf)
 				return
 			}
 		}
