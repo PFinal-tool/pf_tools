@@ -40,7 +40,6 @@ func (m *Md5) Encipher(str string, options Options) {
 		log.Fatalf("failed to initialize termui: %v", err)
 	}
 	defer ui.Close()
-
 	table := widgets.NewTable()
 	table.Title = "MD5加密"
 	// table.BorderStyle = ui.NewStyle(ui.ColorRed)

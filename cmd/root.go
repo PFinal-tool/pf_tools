@@ -9,13 +9,14 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "pf_tools",
-	Short: "pft",
+	Short: "开发小工具",
 	Long: `基于go开发的 小工具集合
-   - pft pf_wt 查询天气
-   - pft pf_m 手机归属地查询
-   - pft pf_md5 md5 小工具
-   - pft pf_b64 base64 小工具
-   - pft pf_s 查询网络词汇
+   - pf_tools pf_wt 查询天气
+   - pf_tools pf_m 手机归属地查询
+   - pf_tools pf_md5 md5 小工具
+   - pf_tools pf_b64 base64 小工具
+   - pf_tools pf_s 查询网络词汇
+   - pf_tools pf_t  获取当前时间戳
 `,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
@@ -40,13 +41,5 @@ func Execute() {
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.pf_tools.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("version", "v", false, "")
+	//rootCmd.Flags().BoolP("version", "v", false, "")
 }

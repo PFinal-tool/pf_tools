@@ -8,7 +8,7 @@ import (
 // pfMCmd represents the pfM command
 var pfMCmd = &cobra.Command{
 	Use:   "pf_m",
-	Short: "pfm",
+	Short: "查询手机归属地",
 	Long:  `查询对应手机的归属地`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {

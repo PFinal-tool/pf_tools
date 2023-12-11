@@ -8,7 +8,7 @@ import (
 // pfWtCmd represents the pfWt command
 var pfWtCmd = &cobra.Command{
 	Use:   "pf_wt",
-	Short: "pwt",
+	Short: "查询天气",
 	Long:  `查询对应参数的天气`,
 	Run: func(cmd *cobra.Command, args []string) {
 		weather := pak.Weather{}
