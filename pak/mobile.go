@@ -1,11 +1,17 @@
 package pak
 
 import (
+	"bytes"
+	"embed"
+	"encoding/binary"
+	"errors"
+	"fmt"
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
-	"github.com/zheng-ji/gophone"
 	"log"
 	"regexp"
+	"strconv"
+	"strings"
 )
 
 /**
@@ -15,6 +21,138 @@ import (
  * @Desc:
  * @Project: pf_tools
  */
+const (
+	IntLen           = 4
+	CharLen          = 1
+	PhoneIndexLength = 9
+	CHUNK            = 100
+	PhoneDat         = "phone.dat"
+)
+
+//go:embed phone.dat
+var fsContent embed.FS
+
+type PhoneRecord struct {
+	PhoneNum string
+	Province string
+	City     string
+	ZipCode  string
+	AreaZone string
+	CardType string
+}
+
+var content []byte
+
+func init() {
+	var err error
+	content, err = fsContent.ReadFile(PhoneDat)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func Display() {
+	fmt.Println(getVersion())
+	fmt.Println(getTotalRecord())
+	fmt.Println(getFirstRecordOffset())
+}
+
+func (pr PhoneRecord) String() string {
+	_str := fmt.Sprintf("PhoneNum: %s\nAreaZone: %s\nCardType: %s\nCity: %s\nZipCode: %s\nProvince: %s\n", pr.PhoneNum, pr.AreaZone, pr.CardType, pr.City, pr.ZipCode, pr.Province)
+	return _str
+}
+
+func getVersion() string {
+	return string(content[0:IntLen])
+}
+
+func getTotalRecord() int32 {
+	total := (int32(len(content)) - getFirstRecordOffset()) / PhoneIndexLength
+	return total
+}
+
+func getFirstRecordOffset() int32 {
+	var offset int32
+	buffer := bytes.NewBuffer(content[IntLen : IntLen*2])
+	_ = binary.Read(buffer, binary.LittleEndian, &offset)
+	return offset
+}
+
+func getIndexRecord(offset int32) (phonePrefix int32, recordOffset int32, cardType byte) {
+	buffer := bytes.NewBuffer(content[offset : offset+IntLen])
+	_ = binary.Read(buffer, binary.LittleEndian, &phonePrefix)
+	buffer = bytes.NewBuffer(content[offset+IntLen : offset+IntLen*2])
+	_ = binary.Read(buffer, binary.LittleEndian, &recordOffset)
+	buffer = bytes.NewBuffer(content[offset+IntLen*2 : offset+IntLen*2+CharLen])
+	_ = binary.Read(buffer, binary.LittleEndian, &cardType)
+	return
+}
+
+func getOpCompany(cardtype byte) string {
+	var card_str = ""
+	switch cardtype {
+	case '1':
+		card_str = "移动"
+	case '2':
+		card_str = "联通"
+	case '3':
+		card_str = "电信"
+	case '4':
+		card_str = "电信虚拟运营商"
+	case '5':
+		card_str = "联通虚拟运营商"
+	default:
+		card_str = "移动虚拟运营商"
+	}
+	return card_str
+}
+
+func Find(phoneNum string) (pr *PhoneRecord, err error) {
+	err = nil
+	if len(phoneNum) < 7 || len(phoneNum) > 11 {
+		return nil, errors.New("illegal phone length")
+	}
+
+	var left int32 = 0
+	phone_seven_int, _ := strconv.ParseInt(phoneNum[0:7], 10, 32)
+	phone_seven_int32 := int32(phone_seven_int)
+	total_len := int32(len(content))
+	right := getTotalRecord()
+	firstPhoneRecordOffset := getFirstRecordOffset()
+	for {
+		if left > right {
+			break
+		}
+		mid := (left + right) / 2
+		current_offset := firstPhoneRecordOffset + mid*PhoneIndexLength
+
+		if current_offset >= total_len {
+			break
+		}
+		cur_phone, record_offset, card_type := getIndexRecord(current_offset)
+		if cur_phone > phone_seven_int32 {
+			right = mid - 1
+		} else if cur_phone < phone_seven_int32 {
+			left = mid + 1
+		} else {
+			s := record_offset
+			e := record_offset + int32(strings.Index(string(content[record_offset:record_offset+CHUNK]), "\000"))
+			record_content := string(content[s:e])
+			_tmp := strings.Split(record_content, "|")
+			card_str := getOpCompany(card_type)
+			pr = &PhoneRecord{
+				PhoneNum: phoneNum,
+				Province: _tmp[0],
+				City:     _tmp[1],
+				ZipCode:  _tmp[2],
+				AreaZone: _tmp[3],
+				CardType: card_str,
+			}
+			return
+		}
+	}
+	return nil, errors.New("num not found")
+}
 
 type Mobile struct{}
 
@@ -32,7 +170,7 @@ func (m *Mobile) GetInfo(numb string) {
 		log.Fatalf("failed to initialize termui: %v", err)
 	}
 	defer ui.Close()
-	pr, err := gophone.Find(numb)
+	pr, err := Find(numb)
 	if err != nil {
 		//fmt.Println(err)
 		p := widgets.NewParagraph()
@@ -97,7 +235,6 @@ func (m *Mobile) GetInfo(numb string) {
 		case "G", "<End>":
 			l.ScrollBottom()
 		}
-
 		if previousKey == "g" {
 			previousKey = ""
 		} else {
