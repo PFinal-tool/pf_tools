@@ -55,7 +55,7 @@ func (m *Md5) Encipher(str string, options Options) {
 	for {
 		e := <-uiEvents
 		switch e.ID {
-		case "q", "<C-c>":
+		case "q":
 			return
 		case "c":
 			_ = clipboard.WriteAll(enStr)

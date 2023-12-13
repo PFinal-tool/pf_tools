@@ -56,7 +56,7 @@ func (c *Cryption) EncodeToString(str string) {
 	for {
 		e := <-uiEvents
 		switch e.ID {
-		case "q", "<C-c>":
+		case "q":
 			return
 		case "c":
 			_ = clipboard.WriteAll(sprintf)
