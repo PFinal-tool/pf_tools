@@ -6,7 +6,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	ui "github.com/gizak/termui/v3"
+	. "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
 	"log"
 	"regexp"
@@ -166,22 +166,22 @@ type MobileInfo struct {
 }
 
 func (m *Mobile) GetInfo(numb string) {
-	if err := ui.Init(); err != nil {
+	if err := Init(); err != nil {
 		log.Fatalf("failed to initialize termui: %v", err)
 	}
-	defer ui.Close()
+	defer Close()
 	pr, err := Find(numb)
 	if err != nil {
 		//fmt.Println(err)
 		p := widgets.NewParagraph()
 		p.Title = "查询结果"
 		p.Text = "查询失败 按 Q 退出"
-		p.TextStyle.Fg = ui.ColorGreen
-		p.BorderStyle.Fg = ui.ColorRed
+		p.TextStyle.Fg = ColorGreen
+		p.BorderStyle.Fg = ColorRed
 		p.SetRect(0, 0, 30, 3)
-		ui.Render(p)
+		Render(p)
 
-		uiEvents := ui.PollEvents()
+		uiEvents := PollEvents()
 		for {
 			e := <-uiEvents
 			switch e.ID {
@@ -202,13 +202,13 @@ func (m *Mobile) GetInfo(numb string) {
 		"[4] 所在城市邮编:" + pr.ZipCode,
 		"[5] 所在地区编码:" + pr.AreaZone,
 	}
-	l.TextStyle = ui.NewStyle(ui.ColorGreen)
-	l.TitleStyle = ui.NewStyle(ui.ColorGreen)
+	l.TextStyle = NewStyle(ColorGreen)
+	l.TitleStyle = NewStyle(ColorGreen)
 	l.WrapText = false
 	l.SetRect(0, 0, 40, 8)
-	ui.Render(l)
+	Render(l)
 	previousKey := ""
-	uiEvents := ui.PollEvents()
+	uiEvents := PollEvents()
 	for {
 		e := <-uiEvents
 		switch e.ID {
@@ -240,7 +240,7 @@ func (m *Mobile) GetInfo(numb string) {
 		} else {
 			previousKey = e.ID
 		}
-		ui.Render(l)
+		Render(l)
 	}
 }
 
