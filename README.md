@@ -1,6 +1,6 @@
 # PF_Tools
 
-基于 golang 开发的终端小工具集
+基于 golang 终端小工具集
 
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202311081714504.png)
 
