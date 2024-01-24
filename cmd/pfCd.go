@@ -18,11 +18,11 @@ var pfCdCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		var path string
 		if len(args) > 0 {
-			fmt.Println(args[0])
+			path = args[0]
 		} else {
 			path, _ = os.Getwd()
-			fmt.Printf("清除目录的.DS_Store 文件: %s\n", path)
 		}
+		fmt.Printf("清除目录的.DS_Store 文件: %s\n", path)
 		clearPath := pak.ClearPath{Path: path}
 		clearPath.ClearDotDSStore()
 	},

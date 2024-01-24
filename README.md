@@ -58,3 +58,9 @@ pf_tools pf_s qnmd
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202311151407598.png)
 
 
+#### 清除目录中的.DS_Store 文件
+```shell
+pf_tools pf_cd  # 清除当前目录
+pf_tools pf_cd "" # 清除指定路径
+```
+
