@@ -63,4 +63,5 @@ pf_tools pf_s qnmd
 pf_tools pf_cd  # 清除当前目录
 pf_tools pf_cd "" # 清除指定路径
 ```
+![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202401250948067.png)
 
