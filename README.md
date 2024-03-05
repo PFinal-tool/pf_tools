@@ -65,3 +65,10 @@ pf_tools pf_cd "" # 清除指定路径
 ```
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202401250948067.png)
 
+
+#### 微信URL检测 
+```shell
+pf_tools pf_cwx [urlstring]
+```
+
+![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202403050921393.png)
