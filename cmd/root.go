@@ -18,6 +18,7 @@ var rootCmd = &cobra.Command{
    - pf_tools pf_t  获取当前时间戳
    - pf_tools pf_cd 清除目录中的.DS_Store 文件
    - pf_tools pf_cwx 微信域名拦截检测 文件
+   - pf_tools pf_mk 快捷的创建时间文件夹
 `,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
