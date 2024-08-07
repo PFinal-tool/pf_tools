@@ -39,7 +39,7 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: pf_tools-${{ matrix.goos }}-${{ matrix.goarch }}
+        name: pf_tools-${{ matrix.goos }}_${{ matrix.goarch }}
         path: ./dist/${{ matrix.goos }}_${{ matrix.goarch }}/pf_tools*
 
   release:
