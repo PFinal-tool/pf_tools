@@ -31,8 +31,8 @@ jobs:
 
     - name: Build
       run: |
-          mkdir -p ./dist
-          GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o ./dist/pf_tools-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.goos == 'windows' && '.exe' || '' }} -v ./...
+          mkdir -p ./dist/${{ matrix.goos }}_${{ matrix.goarch }}
+          GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o ./dist/${{ matrix.goos }}_${{ matrix.goarch }}/pf_tools-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.goos == 'windows' && '.exe' || '' }} -v ./...
 
     - name: Test
       run: go test -v ./...
@@ -40,7 +40,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: pf_tools-${{ matrix.goos }}-${{ matrix.goarch }}
-        path: ./dist/pf_tools-${{ matrix.goos }}-${{ matrix.goarch }}*
+        path: ./dist/${{ matrix.goos }}_${{ matrix.goarch }}/pf_tools*
 
   release:
     needs: [build]
@@ -50,24 +50,19 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: pf_tools-linux_amd64
-          path: dist/
+          path: ./dist/linux_amd64/
 
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: pf_tools-darwin_amd64
-          path: dist/
+          path: ./dist/darwin_amd64/
 
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: pf_tools-windows_amd64
-          path: dist/
-
-      - name: Upload artifacts
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ./dist/*
+          path: ./dist/windows_amd64/
 
       - name: Create Release
         id: create_release
@@ -86,7 +81,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/pf_tools-linux_amd64
+          asset_path: ./dist/linux_amd64/pf_tools-linux_amd64
           asset_name: pf_tools-linux_amd64
           asset_content_type: application/octet-stream
 
@@ -96,7 +91,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/pf_tools-darwin_amd64
+          asset_path: ./dist/darwin_amd64/pf_tools-darwin_amd64
           asset_name: pf_tools-darwin_amd64
           asset_content_type: application/octet-stream
 
@@ -106,6 +101,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/pf_tools-windows_amd64.exe
+          asset_path: ./dist/windows_amd64/pf_tools-windows_amd64.exe
           asset_name: pf_tools-windows_amd64.exe
           asset_content_type: application/octet-stream
