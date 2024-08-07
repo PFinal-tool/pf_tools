@@ -30,14 +30,17 @@ jobs:
         go-version: "1.22"
 
     - name: Build
-      run: mkdir -p ./dist && go build -o ./dist/${{ matrix.goos }}_${{ matrix.goarch }} -v ./...
+      run: |
+          mkdir -p ./dist
+          GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o ./dist/pf_tools-${{ matrix.goos }}-${{ matrix.goarch }}${{ matrix.goos == 'windows' && '.exe' || '' }} -v ./...
+
     - name: Test
       run: go test -v ./...
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ matrix.goos }}_${{ matrix.goarch }}
-        path: dist/${{ matrix.goos }}_${{ matrix.goarch }}
+        name: pf_tools-${{ matrix.goos }}-${{ matrix.goarch }}
+        path: ./dist/pf_tools-${{ matrix.goos }}-${{ matrix.goarch }}*
 
   release:
     needs: [build]
@@ -46,19 +49,19 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: pf_tools_linux_amd64
+          name: pf_tools-linux_amd64
           path: dist/
 
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: pf_tools_darwin_amd64
+          name: pf_tools-darwin_amd64
           path: dist/
 
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: pf_tools_windows_amd64
+          name: pf_tools-windows_amd64
           path: dist/
 
       - name: Upload artifacts
@@ -83,8 +86,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/pf_tools_linux_amd64
-          asset_name: pf_tools_linux_amd64
+          asset_path: ./dist/pf_tools-linux_amd64
+          asset_name: pf_tools-linux_amd64
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset macOS
@@ -93,8 +96,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/pf_tools_darwin_amd64
-          asset_name: pf_tools_darwin_amd64
+          asset_path: ./dist/pf_tools-darwin_amd64
+          asset_name: pf_tools-darwin_amd64
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset Windows
@@ -103,6 +106,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/pf_tools_windows_amd64.exe
-          asset_name: pf_tools_windows_amd64.exe
+          asset_path: ./dist/pf_tools-windows_amd64.exe
+          asset_name: pf_tools-windows_amd64.exe
           asset_content_type: application/octet-stream
