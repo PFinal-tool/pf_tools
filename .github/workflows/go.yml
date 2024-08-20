@@ -85,7 +85,7 @@ jobs:
           asset_name: pf_tools-linux_amd64
           asset_content_type: application/octet-stream
 
-      - name: Upload Release Asset macOS
+      - name: Upload Release Asset macOS amd
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -93,6 +93,16 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./dist/darwin_amd64/pf_tools-darwin_amd64
           asset_name: pf_tools-darwin_amd64
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset macOS arm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/darwin_amd64/pf_tools-darwin_arm64
+          asset_name: pf_tools-darwin_arm64
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset Windows
