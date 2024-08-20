@@ -61,6 +61,12 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
+          name: pf_tools-darwin_arm64
+          path: ./dist/darwin_arm64/
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
           name: pf_tools-windows_amd64
           path: ./dist/windows_amd64/
 
