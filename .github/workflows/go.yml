@@ -101,7 +101,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/darwin_amd64/pf_tools-darwin_arm64
+          asset_path: ./dist/darwin_arm64/pf_tools-darwin_arm64
           asset_name: pf_tools-darwin_arm64
           asset_content_type: application/octet-stream
 
