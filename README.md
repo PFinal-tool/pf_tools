@@ -8,7 +8,7 @@
 
 ```shell
  pf_tools pf_wt  # 默认本地天气
- pf_tools pf_wt 成都 # 指定城市天气 
+ pf_tools pf_wt 成都 # 指定城市天气
 ```
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202311081716928.png)
 
@@ -26,9 +26,9 @@
  pf_tools pf_md5 pfinaclub #加密 pfinalclub
  pf_tools pf_md5 pfinaclub pf 1 #加密 pfinalclub 右边加盐 pf
 ```
-> 按 q 退出 
+> 按 q 退出
 
-> 按 c 建复制到剪贴板上 
+> 按 c 建复制到剪贴板上
 
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202311141146354.png)
 
@@ -52,7 +52,7 @@ pf_tools pf_b64 cGZpbmFsY2x1Yg== -d # 解密
 #### 查询网络词汇
 
 ```shell
-pf_tools pf_s yyds 
+pf_tools pf_s yyds
 pf_tools pf_s qnmd
 ```
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202311151407598.png)
@@ -66,7 +66,7 @@ pf_tools pf_cd "" # 清除指定路径
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202401250948067.png)
 
 
-#### 微信URL检测 
+#### 微信URL检测
 ```shell
 pf_tools pf_cwx [urlstring]
 ```
@@ -74,3 +74,6 @@ pf_tools pf_cwx [urlstring]
 
 ![](https://raw.githubusercontent.com/pfinal-nc/iGallery/master/blog/202403050921393.png)
 
+
+## Stargazers over time
+[![Stargazers over time](https://starchart.cc/PFinal-tool/pf_tools.svg?variant=adaptive)](https://starchart.cc/PFinal-tool/pf_tools)
