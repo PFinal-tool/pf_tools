@@ -4,7 +4,7 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
+	"github.com/fatih/color"
 	"github.com/pfinal/pf_tools/pak"
 	"github.com/spf13/cobra"
 	"os"
@@ -16,15 +16,21 @@ var pfCdCmd = &cobra.Command{
 	Short: "清除目录中的.DS_Store 文件",
 	Long:  `清除mac 目录中生成的.DS_Store 文件`,
 	Run: func(cmd *cobra.Command, args []string) {
+		colorPrint := color.New(color.Bold)
+		colorPrint.Add(color.FgGreen)
+		_, _ = colorPrint.Println("执行清除目录中的.DS_Store 文件 >>>>>>>")
 		var path string
 		if len(args) > 0 {
 			path = args[0]
 		} else {
 			path, _ = os.Getwd()
 		}
-		fmt.Printf("清除目录的.DS_Store 文件: %s\n", path)
+		colorPrint.Add(color.FgRed)
+		_, _ = colorPrint.Printf("清除目录的.DS_Store 文件: %s\n", path)
 		clearPath := pak.ClearPath{Path: path}
 		clearPath.ClearDotDSStore()
+		colorPrint.Add(color.FgGreen)
+		_, _ = colorPrint.Println("结束清除目录中的.DS_Store 文件 >>>>>>>")
 	},
 }
 
