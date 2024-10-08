@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"github.com/fatih/color"
+	"github.com/pfinal/pf_tools/pak"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -23,6 +25,12 @@ var rootCmd = &cobra.Command{
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
+		version, _ := cmd.Flags().GetBool("version")
+		if version {
+			color.Green("当前版本号: " + pak.Version)
+			return
+		}
+
 		if len(args) == 0 {
 			err := cmd.Help()
 			if err != nil {
@@ -36,10 +44,12 @@ var rootCmd = &cobra.Command{
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
+	rootCmd.Flags().BoolP("version", "v", false, "当前版本号")
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
 	}
+
 }
 
 func init() {
