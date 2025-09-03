@@ -6,7 +6,7 @@ import (
 )
 
 var Logo = `
-欢迎使用pf_tools， 请按照下面的指示操作
+欢迎使用pf_tools小工具， 请按照下面的指示操作
 `
 
 func main() {
