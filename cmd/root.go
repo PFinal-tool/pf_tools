@@ -11,16 +11,30 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "pf_tools",
 	Short: "开发小工具",
-	Long: `基于go开发的 小工具集合
-   - pf_tools pf_wt 查询天气
-   - pf_tools pf_m 手机归属地查询
-   - pf_tools pf_md5 md5 小工具
-   - pf_tools pf_b64 base64 小工具
-   - pf_tools pf_s 查询网络词汇
-   - pf_tools pf_t  获取当前时间戳
-   - pf_tools pf_cd 清除目录中的.DS_Store 文件
-   - pf_tools pf_cwx 微信域名拦截检测 文件
-   - pf_tools pf_mk 快捷的创建时间文件夹
+	Long: `基于 go 开发的小工具集合
+
+基础:
+   - pf_wt / pf_m / pf_s          天气、手机归属地、网络词汇
+   - pf_cd / pf_mk / pf_cwx       清 DS_Store、建日期目录、微信链接检测
+
+编解码:
+   - pf_md5 / pf_b64 / pf_t       MD5、Base64、时间戳
+   - pf_json / pf_url / pf_jwt    JSON、URL、JWT
+   - pf_hex / pf_case / pf_unicode  Hex、命名风格、Unicode
+
+生成器:
+   - pf_uuid / pf_rand / pf_pass  UUID、随机串、密码
+   - pf_mock                      测试数据
+
+排障:
+   - pf_whichport / pf_killport   端口占用查询 / 按端口杀进程
+   - pf_cert / pf_ip / pf_dns     证书、IP、DNS
+   - pf_http / pf_expand          HTTP 探活、短链展开
+   - pf_cidr / pf_semver          网段判断、版本 bump
+   - pf_cron / pf_status          Cron 解读、HTTP 状态码
+   - pf_cookie / pf_header / pf_clip  Cookie、Header、剪贴板流水线
+
+多数命令支持 -q 仅输出结果，便于管道。
 `,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:

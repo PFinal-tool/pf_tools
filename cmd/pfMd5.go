@@ -14,9 +14,18 @@ var pfMd5Cmd = &cobra.Command{
 	1. 第一个参数是要加密的字符串
 	2. 第二个参数是盐
 	3. 第三个参数 0或者1 0 是盐在左边 1 是盐在右边
+	支持 -f 对文件做 MD5，-q 仅输出结果
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		md5Obj := pak.Md5{}
+		quiet, _ := cmd.Flags().GetBool("quiet")
+		filePath, _ := cmd.Flags().GetString("file")
+		md5Obj := pak.Md5{Quiet: quiet}
+
+		if filePath != "" {
+			md5Obj.EncipherFile(filePath)
+			return
+		}
+
 		if len(args) > 3 {
 			_ = cmd.Help()
 			return
@@ -50,15 +59,7 @@ var pfMd5Cmd = &cobra.Command{
 }
 
 func init() {
+	pfMd5Cmd.Flags().BoolP("quiet", "q", false, "仅输出结果，便于管道")
+	pfMd5Cmd.Flags().StringP("file", "f", "", "对文件计算 MD5")
 	rootCmd.AddCommand(pfMd5Cmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// pfMd5Cmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// pfMd5Cmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

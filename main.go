@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/fatih/color"
 	"github.com/pfinal/pf_tools/cmd"
 )
@@ -10,9 +12,11 @@ var Logo = `
 `
 
 func main() {
-	// 实例化一个新的color对象，设置前景色为红色，背景色为绿色，文字斜体
-	colorPrint := color.New(color.Bold)
-	colorPrint.Add(color.FgGreen)
-	_, _ = colorPrint.Println(Logo)
+	// 仅在无子命令时展示欢迎语，避免污染 -q / 管道输出
+	if len(os.Args) == 1 {
+		colorPrint := color.New(color.Bold)
+		colorPrint.Add(color.FgGreen)
+		_, _ = colorPrint.Println(Logo)
+	}
 	cmd.Execute()
 }

@@ -12,8 +12,9 @@ import (
 
 // pfTestCmd represents the pfTest command
 var pfTestCmd = &cobra.Command{
-	Use:   "pfTest",
-	Short: "A brief description of your command",
+	Use:    "pfTest",
+	Short:  "A brief description of your command",
+	Hidden: true,
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 

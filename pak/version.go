@@ -8,8 +8,8 @@ package pak
  * @Project: pf_tools
  */
 
-var Version = "v1.0.0"
+var Version = "v1.4.0"
 
 func GetVersion() string {
-	return "v1.0.1"
+	return Version
 }

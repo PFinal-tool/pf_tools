@@ -3,10 +3,7 @@ package pak
 import (
 	"crypto/md5"
 	"fmt"
-	"github.com/atotto/clipboard"
-	ui "github.com/gizak/termui/v3"
-	"github.com/gizak/termui/v3/widgets"
-	"log"
+	"os"
 )
 
 /**
@@ -17,7 +14,10 @@ import (
  * @Project: pf_tools
  */
 
-type Md5 struct{}
+type Md5 struct {
+	Quiet bool
+}
+
 type Options struct {
 	Salt     string
 	Position int `json:"position"` // 0.为左边 1 为右边
@@ -35,31 +35,35 @@ func (m *Md5) Encipher(str string, options Options) {
 	data := []byte(str)
 	has := md5.Sum(data)
 	enStr := fmt.Sprintf("%x", has)
-	//fmt.Println(enStr)
-	if err := ui.Init(); err != nil {
-		log.Fatalf("failed to initialize termui: %v", err)
+
+	view := ResultView{Quiet: m.Quiet}
+	if m.Quiet {
+		view.Print(enStr)
+		return
 	}
-	defer ui.Close()
-	table := widgets.NewTable()
-	table.Title = "MD5加密"
-	// table.BorderStyle = ui.NewStyle(ui.ColorRed)
-	table.Rows = [][]string{
-		[]string{"待加密", "加密后      "},
+	rows := [][]string{
+		{"待加密", "加密后"},
+		{str, enStr},
 	}
-	table.Rows = append(table.Rows, []string{str, enStr})
-	table.TextStyle = ui.NewStyle(ui.ColorGreen)
-	table.TitleStyle = ui.NewStyle(ui.ColorGreen)
-	table.SetRect(0, 0, 80, 5)
-	ui.Render(table)
-	uiEvents := ui.PollEvents()
-	for {
-		e := <-uiEvents
-		switch e.ID {
-		case "q":
-			return
-		case "c":
-			_ = clipboard.WriteAll(enStr)
-			return
-		}
+	view.ShowTable("MD5加密", rows, enStr)
+}
+
+func (m *Md5) EncipherFile(path string) {
+	data, err := os.ReadFile(path)
+	view := ResultView{Quiet: m.Quiet}
+	if err != nil {
+		view.ShowText("MD5加密", "读取文件失败: "+err.Error(), "", false)
+		return
 	}
+	has := md5.Sum(data)
+	enStr := fmt.Sprintf("%x", has)
+	if m.Quiet {
+		view.Print(enStr)
+		return
+	}
+	rows := [][]string{
+		{"文件", "MD5"},
+		{path, enStr},
+	}
+	view.ShowTable("MD5加密", rows, enStr)
 }
